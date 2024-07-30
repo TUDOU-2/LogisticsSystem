@@ -1,0 +1,143 @@
+﻿<Window x:Class="LogisticsSystem.Views.EditSeaTransportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LogisticsSystem.Views"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:vm="clr-namespace:LogisticsSystem.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:EditSeaTransportViewModel}"
+        WindowState="Normal" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" 
+        WindowStartupLocation="CenterOwner"
+        Height="600" Width="950">
+    <Border Background="White" CornerRadius="10" BorderThickness="1" BorderBrush="#BDBDBD">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseDown="Grid_MouseDown" Background="Transparent">
+                <TextBlock Text="修改海运单号" FontSize="20" HorizontalAlignment="Center" Margin="0,10"/>
+            </Grid>
+
+            <Button Margin="12,0" BorderBrush="Transparent" HorizontalAlignment="Right" Style="{StaticResource ButtonCustom}"
+                    FontFamily="..\fonts\#fontawesome" FontSize="18" Content="&#xf2d3;" Click="Button_Click"/>
+
+            <Grid  Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Margin="5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="柜型" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="柜号" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="2" Text="起运港" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="3" Text="目的地" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="4" Text="客户选择" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="0" Grid.Column="1" Height="30" Text="{Binding SeaTransport.BoxModel}" Margin="5" Padding="3"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Height="30" Text="{Binding SeaTransport.BoxNumber}" Margin="5" Padding="3"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Height="30" Text="{Binding SeaTransport.SourcePlace}" Margin="5" Padding="3"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Height="30" Text="{Binding SeaTransport.TargetPlace}" Margin="5" Padding="3"/>
+                        <ComboBox Grid.Row="4" Grid.Column="1" Height="30" ItemsSource="{Binding CustomerList}" SelectedItem="{Binding SeaTransport.Customer}" DisplayMemberPath="Name" Margin="5" Padding="3"/>
+
+                    </Grid>
+
+                    <Grid Margin="5,0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="件数" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="重量" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="2" Text="体积" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="3" Text="备注" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="4" Text="出货时间" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="0" Grid.Column="1" Height="30" Text="{Binding SeaTransport.SumCount,Mode=OneWay}" Margin="5" Padding="3" IsReadOnly="True" Background="LightGray"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Height="30" Text="{Binding SeaTransport.SumWeight,Mode=OneWay}" Margin="5" Padding="3" IsReadOnly="True" Background="LightGray"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Height="30" Text="{Binding SeaTransport.SumVolume,Mode=OneWay}" Margin="5" Padding="3" IsReadOnly="True" Background="LightGray"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Height="30" Text="{Binding SeaTransport.Note,Mode=TwoWay}" Margin="5" Padding="3"/>
+                        <hc:DatePicker Grid.Row="4" Grid.Column="1" Height="30" SelectedDate="{Binding SeaTransport.SendData}" Margin="5" Padding="3"/>
+                    </Grid>
+                </Grid>
+
+                <DataGrid Grid.Row="1" Margin="3" AutoGenerateColumns="False" ItemsSource="{Binding SeaTransport.SeaTransportDetailsList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="60" Header="序号" Binding="{Binding Id}"/>
+                        <DataGridTemplateColumn Width="150" Header="收货时间" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <DatePicker VerticalAlignment="Center" SelectedDate="{Binding ReceiveDate}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Width="80" Header="厂家" Binding="{Binding Productor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Width="80" Header="收货件数" Binding="{Binding Count,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Width="80" Header="体积" Binding="{Binding Volume,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Width="80" Header="重量" Binding="{Binding Weight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Width="150" Header="备注" Binding="{Binding Note}"/>
+                        <DataGridTemplateColumn Width="80" Header="操作">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Button VerticalAlignment="Center" Content="删除" Command="{Binding DataContext.DeleteCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}" Style="{StaticResource ButtonDanger}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Grid Grid.Row="2" Margin="5,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="添加" Style="{StaticResource ButtonPrimary}" Margin="5,0,10,0" Width="100" Command="{Binding AddCommand}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                        <Button Content="保存" Style="{StaticResource ButtonPrimary}" Width="80"  Margin="0,0,0,0" Command="{Binding SaveCommand}"/>
+                        <Button Content="取消" Style="{StaticResource ButtonPrimary}" Width="80"  Margin="10,0,5,0" Click="Button_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

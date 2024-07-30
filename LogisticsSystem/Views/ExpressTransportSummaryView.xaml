@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="LogisticsSystem.Views.ExpressTransportSummaryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LogisticsSystem.Views"
+             xmlns:vm="clr-namespace:LogisticsSystem.ViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:ExpressTransportSummaryViewModel}"
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!--数据内容-->
+        <DataGrid ItemsSource="{Binding ExpressTransportList}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+               AutoGenerateColumns="False" CanUserDeleteRows="False" IsReadOnly="True" Margin="8,3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding IndexNumber}"/>
+                <DataGridTextColumn Header="发货时间" Width="100" Binding="{Binding SendData,StringFormat='yyyy-MM-dd'}"/>
+                <DataGridTextColumn Header="客户" Width="150" Binding="{Binding Customer.Name}"/>
+                <DataGridTextColumn Header="单号" Width="150" Binding="{Binding OrderNumber}"/>
+                <DataGridTextColumn Header="渠道" Width="75" Binding="{Binding Channel}"/>
+                <DataGridTextColumn Header="起运港" Width="150" Binding="{Binding SourcePlace}"/>
+                <DataGridTextColumn Header="目的地" Width="150" Binding="{Binding TargetPlace}"/>
+                <DataGridTextColumn Header="总件数" Width="75" Binding="{Binding SumCount}"/>
+                <DataGridTextColumn Header="总体积" Width="75" Binding="{Binding SumVolume}"/>
+                <DataGridTextColumn Header="总重量" Width="75" Binding="{Binding SumWeight}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--信息汇总-->
+        <Grid Grid.Row="1" Margin="8,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <hc:Pagination MaxPageCount="{Binding MaxPageCount}" PageIndex="{Binding PageIndex,Mode=TwoWay}" IsJumpEnabled="True"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Right">
+                <TextBlock Text="当前页汇总:" FontSize="14" Foreground="Green" Margin="15,0" FontWeight="Bold"/>
+
+                <TextBlock Text="件数:" FontSize="14" Foreground="Green" Margin="15,0"/>
+                <TextBlock Text="{Binding SumCount}" FontSize="14" Foreground="Green" Margin="5,0"/>
+
+                <TextBlock Text="体积:" FontSize="14" Foreground="Green" Margin="15,0"/>
+                <TextBlock Text="{Binding SumVolume}" FontSize="14" Foreground="Green" Margin="5,0"/>
+
+                <TextBlock Text="重量:" FontSize="14" Foreground="Green" Margin="15,0"/>
+                <TextBlock Text="{Binding SumWeight}" FontSize="14" Foreground="Green" Margin="8,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
